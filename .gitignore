@@ -100,5 +100,6 @@ InitTestScene*.unity*
 **/Library/**
 **/UserSettings/**
 **/Temp/**
+*.kra~
 **.idea
 **/obj
