@@ -17,8 +17,10 @@ public class Human : MonoBehaviour
     private InputManager.InputEvent m_canceledEvent;
     private InputManager.InputEvent m_performedEvent;
 
-    // Start is called before the first frame update
-    private void Start()
+	Usable m_target;
+
+	// Start is called before the first frame update
+	private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         GetComponent<Selectable>().OnSelect += OnSelect;
@@ -26,8 +28,19 @@ public class Human : MonoBehaviour
         m_performedEvent = new InputManager.InputEvent(OnMove_Performed, InputActionPhase.Performed);
         m_canceledEvent = new InputManager.InputEvent(OnMove_Canceled, InputActionPhase.Canceled);
     }
+	private void Update()
+	{
+        if (m_target != null)
+        {
+            agent.SetDestination(m_target.transform.position);
+            if (agent.isStopped)
+            {
+                m_target.Use();
+            }
+        }
+	}
 
-    private void OnSelect()
+	private void OnSelect()
     {
         RegisterMove(true);
     }
@@ -48,12 +61,26 @@ public class Human : MonoBehaviour
     }
 
     private void OnMove_Performed(InputAction input)
-    {
+	{
+		Vector3 worldPos = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
+        Collider2D[] colliders = Physics2D.OverlapPointAll(worldPos);
+        foreach(Collider2D collider in colliders)
+        {
+            HandleClicOnCollider(collider);
+        }
         agent.destination = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
     }
 
+	private void HandleClicOnCollider(Collider2D collider)
+	{
+        if(collider.TryGetComponent(out Usable usable))
+        {
+            m_target = usable;
+        }
+	}
+
 #if UNITY_EDITOR
-    private void OnDrawGizmos()
+	private void OnDrawGizmos()
     {
         DrawGizmos(agent, showPath, showAhead);
     }

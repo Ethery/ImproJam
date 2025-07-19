@@ -1,9 +1,6 @@
 using UnityEngine;
 
-public class Usable : MonoBehaviour
+public abstract class Usable : MonoBehaviour
 {
-    public void Use()
-    {
-        
-    }
+    public abstract void Use();
 }
