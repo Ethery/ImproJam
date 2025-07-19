@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: af75d7a3de758894081d94ae9de57e39
+guid: 23d060fe9deb2cd40a28143eeff2f9c9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8567186622430992613
-    second: temp_0
+      213: 3553319599232446654
+    second: 2walls_0
+  - first:
+      213: -3476861373042287689
+    second: 2walls_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,17 +49,17 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
-  spriteExtrude: 1
+  spriteMode: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 256
+  spritePixelsToUnits: 51.2
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -113,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: temp_0
+      name: 2walls_0
       rect:
         serializedVersion: 2
         x: 0
@@ -121,25 +124,44 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b17a585682d3b1980800000000000000
-      internalID: -8567186622430992613
+      spriteID: eb0fea5695def4130800000000000000
+      internalID: 3553319599232446654
       vertices: []
       indices: 
       edges: []
       weights: []
-    outline: []
+    outline:
+    - - {x: -128, y: -128}
+      - {x: -68, y: -128}
+      - {x: -68, y: 128}
+      - {x: -128, y: 128}
+    - - {x: 69, y: -128}
+      - {x: 128, y: -128}
+      - {x: 128, y: 128}
+      - {x: 71, y: 128}
     customData: 
-    physicsShape: []
+    physicsShape:
+    - - {x: -66, y: -109}
+      - {x: -66, y: 106}
+      - {x: -67, y: 128}
+      - {x: -128, y: 128}
+      - {x: -128, y: -128}
+      - {x: -68, y: -128}
+    - - {x: 128, y: 128}
+      - {x: 70, y: 128}
+      - {x: 67, y: 107}
+      - {x: 67, y: -128}
+      - {x: 128, y: -128}
     bones: []
-    spriteID: 
-    internalID: 0
+    spriteID: de4bc4f773f3f054cb5ac6a2a972cd1b
+    internalID: -1300208440
     vertices: []
     indices: 
     edges: []
@@ -148,7 +170,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      temp_0: -8567186622430992613
+      2walls_0: 3553319599232446654
+      2walls_1: -3476861373042287689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
