@@ -33,7 +33,7 @@ public class Human : MonoBehaviour
         if (m_target != null)
         {
             agent.SetDestination(m_target.transform.position);
-            if (agent.isStopped)
+            if (agent.remainingDistance < 1 && agent.pathStatus == NavMeshPathStatus.PathComplete)
             {
                 m_target.Use();
                 m_target = null;
