@@ -1,0 +1,3 @@
+[submodule "Unity/Packages/com.ethery.unitytools"]
+	path = Unity/Packages/com.ethery.unitytools
+	url = https://github.com/Ethery/UnityTools.git

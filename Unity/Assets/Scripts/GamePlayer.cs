@@ -9,8 +9,22 @@ using UnityTools.Systems.Inputs;
 public class GamePlayer : MonoBehaviour
 {
     [SerializeField] private InputManager.Input m_clickInput;
+    [SerializeField] private List<Selectable> m_selectedObjects = new List<Selectable>();
+
+    [SerializeField] private Vector2 mouseWorldPos;
+
+    [SerializeField] private Vector2 firstClickWorldPos;
+
+    [SerializeField] private Vector2 botLeftPos;
+    [SerializeField] private Vector2 topRightPos;
+
+    [SerializeField] private Vector2 boxSize;
+    [SerializeField] private Vector2 boxCenter;
+    private bool isSelecting;
+
     private Vector2 m_firstClickScreenPos = Vector2.zero;
-    private HashSet<Selectable> m_selectedObjects = new HashSet<Selectable>();
+
+    private Vector2 m_secondScreenPos = Vector2.zero;
 
     private void Start()
     {
@@ -24,11 +38,66 @@ public class GamePlayer : MonoBehaviour
 
     private void Update()
     {
+        if (isSelecting)
+        {
+            GetComponent<SelectionRectangleDrawer>().pos1 = m_firstClickScreenPos;
+            GetComponent<SelectionRectangleDrawer>().pos2 = m_secondScreenPos;
+
+            if (Camera.main == null) return;
+
+            firstClickWorldPos = Camera.main.ScreenToWorldPoint(m_firstClickScreenPos);
+
+            mouseWorldPos = Camera.main.ScreenToWorldPoint(m_secondScreenPos);
+
+            //bottom left corner of the box defined by firstClickWorldPos and mouseWorldPos
+            botLeftPos = new Vector2(Math.Min(firstClickWorldPos.x, mouseWorldPos.x),
+                Math.Min(firstClickWorldPos.y, mouseWorldPos.y));
+
+            //top right corner of the box defined by firstClickWorldPos and mouseWorldPos
+            topRightPos = new Vector2(Math.Max(firstClickWorldPos.x, mouseWorldPos.x),
+                Math.Max(firstClickWorldPos.y, mouseWorldPos.y));
+
+            // Middle point between the two to get real box center.
+            boxSize = topRightPos - botLeftPos;
+            boxCenter = botLeftPos + boxSize / 2;
+
+            // ReSharper disable once Unity.PreferNonAllocApi because non alloc is deprecated
+            Collider2D[] colliderHits =
+                Physics2D.OverlapBoxAll(boxCenter, boxSize, 0);
+
+            List<Selectable> newSelection = new List<Selectable>();
+
+            for (int i = 0; i < colliderHits.Length; i++)
+            {
+                if (colliderHits[i].gameObject.TryGetComponent(out Selectable selectable))
+                {
+                    selectable.Select();
+                    newSelection.Add(selectable);
+                }
+            }
+
+            UpdateSelection(newSelection);
+        }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(mouseWorldPos, 0.2f);
+        Gizmos.DrawWireSphere(firstClickWorldPos, 0.2f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(botLeftPos, 0.25f);
+        Gizmos.DrawWireSphere(topRightPos, 0.25f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(boxCenter, 0.3f);
+        Gizmos.DrawWireSphere(boxCenter + boxSize, 0.3f);
     }
 
     private void OnClick_Canceled(InputAction input)
     {
-        Debug.Log(nameof(OnClick_Canceled));
+        isSelecting = false;
+        m_secondScreenPos = Vector2.zero;
         m_firstClickScreenPos = Vector2.zero;
         GetComponent<SelectionRectangleDrawer>().pos1 = Vector2.zero;
         GetComponent<SelectionRectangleDrawer>().pos2 = Vector2.zero;
@@ -36,46 +105,39 @@ public class GamePlayer : MonoBehaviour
 
     private void OnClick_Performed(InputAction input)
     {
-        if (m_firstClickScreenPos == Vector2.zero)
+        if (!isSelecting)
         {
             m_firstClickScreenPos = input.ReadValue<Vector2>();
-            GetComponent<SelectionRectangleDrawer>().pos1 = m_firstClickScreenPos;
+            m_secondScreenPos = input.ReadValue<Vector2>();
         }
         else
         {
-            GetComponent<SelectionRectangleDrawer>().pos2 = input.ReadValue<Vector2>();
+            m_secondScreenPos = input.ReadValue<Vector2>();
+        }
 
-            if (Camera.main == null) return;
+        isSelecting = true;
+    }
 
-            Vector2 firstClickWorldPos = Camera.main.ScreenToWorldPoint(m_firstClickScreenPos);
-
-            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
-
-            Vector2 boxPos = new Vector2(Math.Min(firstClickWorldPos.x, mouseWorldPos.x),
-                Math.Min(firstClickWorldPos.y, mouseWorldPos.y));
-
-            Vector2 boxSize = new Vector2(Math.Max(firstClickWorldPos.x, mouseWorldPos.x),
-                Math.Max(firstClickWorldPos.y, mouseWorldPos.y));
-
-            // ReSharper disable once Unity.PreferNonAllocApi because non alloc is deprecated
-            Collider2D[] colliderHits =
-                Physics2D.OverlapBoxAll(boxPos, boxSize, 0);
-
-            foreach (Selectable selectable in m_selectedObjects)
+    private void UpdateSelection(List<Selectable> newSelection)
+    {
+        for (int i = m_selectedObjects.Count - 1; i >= 0; i--)
+        {
+            Selectable selectable = m_selectedObjects[i];
+            if (!newSelection.Contains(selectable))
             {
-                if (selectable != null)
-                    selectable.Unselect();
+                selectable.Unselect();
+                m_selectedObjects.RemoveAt(i);
             }
-
-            m_selectedObjects.Clear();
-            for (int i = 0; i < colliderHits.Length; i++)
+            else
             {
-                if (colliderHits[i].gameObject.TryGetComponent(out Selectable selectable))
-                {
-                    selectable.Select();
-                    m_selectedObjects.Add(selectable);
-                }
+                newSelection.Remove(selectable);
             }
+        }
+
+        foreach (Selectable selectable in newSelection)
+        {
+            m_selectedObjects.Add(selectable);
+            selectable.Select();
         }
     }
 }

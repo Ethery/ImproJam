@@ -129,7 +129,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.77
+      value: -17.3
       objectReference: {fileID: 0}
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -169,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8790204170110551648, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_Name
-      value: Human1
+      value: Human
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -186,11 +186,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.41
+      value: -17.3
       objectReference: {fileID: 0}
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.18
+      value: 14.77
       objectReference: {fileID: 0}
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -226,7 +226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8790204170110551648, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_Name
-      value: Human1 (2)
+      value: Human (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4844,7 +4844,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 624699067}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -4937,8 +4937,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_clickInput:
-    m_name: Click
+    m_name: LeftClick
     m_mapName: Player
+  m_selectedObjects: []
+  mouseWorldPos: {x: 0, y: 0}
+  firstClickWorldPos: {x: 0, y: 0}
+  botLeftPos: {x: 0, y: 0}
+  topRightPos: {x: 0, y: 0}
+  boxSize: {x: 0, y: 0}
+  boxCenter: {x: 0, y: 0}
 --- !u!114 &684211966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5101,6 +5108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1611333184}
   - component: {fileID: 1611333185}
+  - component: {fileID: 1611333186}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5140,6 +5148,35 @@ MonoBehaviour:
   m_startScene:
     m_scenePath: Assets/Scenes/SampleScene.unity
   m_gameRules: {fileID: 0}
+--- !u!114 &1611333186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611333181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a54c0d76d67574b904ea72dfc43619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_cameraMoveInput:
+    m_name: Move
+    m_mapName: Camera
+  m_cameraSpeedUpInput:
+    m_name: 
+    m_mapName: 
+  m_cameraSpeedControlInput:
+    m_name: 
+    m_mapName: 
+  m_cameraDragInput:
+    m_name: Drag
+    m_mapName: Camera
+  m_cameraMaxSpeed: 30
+  m_cameraMinSpeed: 5
+  m_cameraBaseSpeed: 15
+  m_cameraSpeedMultiplier: 2
+  m_isSideView: 1
 --- !u!1 &1624985433
 GameObject:
   m_ObjectHideFlags: 0
@@ -5187,6 +5224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb4b5d00e00ec948800bffe1a6f1b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_inputsAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &1624985436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5201,7 +5239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_NotificationBehavior: 3
-  m_UIInputModule: {fileID: 0}
+  m_UIInputModule: {fileID: 1624985438}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -5273,11 +5311,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.35
+      value: -17.3
       objectReference: {fileID: 0}
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.96
+      value: 13.43
       objectReference: {fileID: 0}
     - target: {fileID: 8714503751169480119, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5313,7 +5351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8790204170110551648, guid: 8afd62888a6050644be82d83031cafcb, type: 3}
       propertyPath: m_Name
-      value: Human1 (1)
+      value: Human (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5324,10 +5362,10 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1611333184}
   - {fileID: 519420032}
   - {fileID: 699202988}
   - {fileID: 1376528233}
-  - {fileID: 1611333184}
   - {fileID: 16213656}
   - {fileID: 2032174625}
   - {fileID: 232484073}
