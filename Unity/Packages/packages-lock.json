@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.ethery.unitytools": {
+      "version": "https://github.com/Ethery/UnityTools.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.inputsystem": "1.7.0"
+      },
+      "hash": "fc76e38e9c6c9bea9a4bf8f4aeb13c4f128ed048"
+    },
     "com.unity.2d.animation": {
       "version": "10.2.0",
       "depth": 0,
