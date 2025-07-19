@@ -36,6 +36,7 @@ public class Human : MonoBehaviour
             if (agent.isStopped)
             {
                 m_target.Use();
+                m_target = null;
             }
         }
 	}
