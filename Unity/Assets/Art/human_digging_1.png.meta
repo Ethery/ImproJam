@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      human_digging_1_0: 9079259940100033609
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
