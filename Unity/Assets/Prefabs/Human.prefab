@@ -231,6 +231,9 @@ MonoBehaviour:
   m_Animator: {fileID: 3200646779314124322}
   m_IsWalkingAnimParam: Walking
   m_IsDiggingAnimParam: Digging
+  Stamina: 50
+  MaxStamina: 50
+  AgentSpeed: 5
   showPath: 1
   showAhead: 1
 --- !u!114 &2442448481880478182

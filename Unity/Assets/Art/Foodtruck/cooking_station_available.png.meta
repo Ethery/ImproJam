@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 697d0323d0f945346849be562f52054a
+guid: b56a9cb1cac306444aeb89ec1d0001f8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -495806733027311078
-    second: demon_wings_high_0
+      213: -2323618663978007421
+    second: cooking_station_available_0
+  - first:
+      213: -6345151424760431470
+    second: cooking_station_available_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: demon_wings_high_0
+      name: cooking_station_available_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 38
-        width: 206
-        height: 190
+        x: 34
+        y: 9
+        width: 843
+        height: 567
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a1209a8376a8e19f0800000000000000
-      internalID: -495806733027311078
+      spriteID: 3848f1cd229d0cfd0800000000000000
+      internalID: -2323618663978007421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cooking_station_available_1
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 15
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29c3711b56e71f7a0800000000000000
+      internalID: -6345151424760431470
       vertices: []
       indices: 
       edges: []
@@ -148,7 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      demon_wings_high_0: -495806733027311078
+      cooking_station_available_0: -2323618663978007421
+      cooking_station_available_1: -6345151424760431470
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

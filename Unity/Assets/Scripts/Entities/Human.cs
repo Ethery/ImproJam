@@ -94,7 +94,7 @@ public class Human : MonoBehaviour
         }
         else
         {
-            agent.speed = AgentSpeed / 2;
+            agent.speed = AgentSpeed;
         }
 
 		if ((PosTarget - Vector3.negativeInfinity).sqrMagnitude > Mathf.Epsilon)
