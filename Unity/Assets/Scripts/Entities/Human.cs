@@ -1,16 +1,29 @@
+using NavMeshPlus.Components;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+using UnityTools.Game;
 using UnityTools.Systems.Inputs;
 
 [RequireComponent(typeof(Selectable))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class Human : MonoBehaviour
 {
+    public Tilemap DiggableTilemap => GameManager.Instance.GetGameDatas<GameDatas>().DiggableTilemap;
+    public TileBase DiggedTile => GameManager.Instance.GetGameRules<GameRules>().DiggedTile;
+    public NavMeshSurface NavMesh => GameManager.Instance.GetGameDatas<GameDatas>().NavSurface;
+
     [SerializeField] private InputManager.Input m_moveInput;
-    public bool showPath;
+    [SerializeField] private Animator m_Animator;
+    [SerializeField] private string m_IsWalkingAnimParam;
+    [SerializeField] private string m_IsDiggingAnimParam;
+
+
+	public bool showPath;
     public bool showAhead;
 
     private NavMeshAgent agent;
@@ -28,6 +41,7 @@ public class Human : MonoBehaviour
         m_performedEvent = new InputManager.InputEvent(OnMove_Performed, InputActionPhase.Performed);
         m_canceledEvent = new InputManager.InputEvent(OnMove_Canceled, InputActionPhase.Canceled);
     }
+
 	private void Update()
 	{
         if (m_target != null)
@@ -39,7 +53,15 @@ public class Human : MonoBehaviour
                 m_target = null;
             }
         }
-	}
+        if (m_Animator != null)
+        {
+            m_Animator.SetBool(m_IsWalkingAnimParam, agent.velocity.sqrMagnitude > 0.5f);
+        }
+        foreach(SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+        {
+            renderer.flipX = agent.velocity.sqrMagnitude > 0.5f && agent.velocity.x < 0;
+		}
+    }
 
 	private void OnSelect()
     {
@@ -65,12 +87,32 @@ public class Human : MonoBehaviour
 	{
 		Vector3 worldPos = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
         Collider2D[] colliders = Physics2D.OverlapPointAll(worldPos);
-        foreach(Collider2D collider in colliders)
+
+        if (colliders.Length > 0)
         {
-            HandleClicOnCollider(collider);
+            foreach (Collider2D collider in colliders)
+            {
+                HandleClicOnCollider(collider);
+            }
         }
-        agent.destination = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
+        else
+        {
+            HandleClickOnEmptySpace(worldPos);
+        }
+
+            agent.destination = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
     }
+
+	private void HandleClickOnEmptySpace(Vector3 worldPos)
+	{
+		Vector3Int tilePos = DiggableTilemap.WorldToCell(worldPos);
+        if(DiggableTilemap.GetTile(tilePos) == null)
+        {
+			DiggableTilemap.SetTile(tilePos, DiggedTile);
+            DiggableTilemap.GetComponent<TilemapCollider2D>().ProcessTilemapChanges();
+			NavMesh.BuildNavMesh();
+		}
+	}
 
 	private void HandleClicOnCollider(Collider2D collider)
 	{

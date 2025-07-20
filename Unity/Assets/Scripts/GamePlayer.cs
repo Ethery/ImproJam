@@ -69,7 +69,8 @@ public class GamePlayer : MonoBehaviour
 
             for (int i = 0; i < colliderHits.Length; i++)
             {
-                if (colliderHits[i].gameObject.TryGetComponent(out Selectable selectable))
+                Selectable selectable = colliderHits[i].gameObject.GetComponentInParent<Selectable>();
+                if(selectable != null)
                 {
                     selectable.Select();
                     newSelection.Add(selectable);
