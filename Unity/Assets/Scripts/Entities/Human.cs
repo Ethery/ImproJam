@@ -22,8 +22,11 @@ public class Human : MonoBehaviour
     [SerializeField] private string m_IsWalkingAnimParam;
     [SerializeField] private string m_IsDiggingAnimParam;
 
-
-	public bool showPath;
+    public float Stamina = 50;
+    public float MaxStamina = 50;
+    public float AgentSpeed;
+	
+    public bool showPath;
     public bool showAhead;
 
     private NavMeshAgent agent;
@@ -32,6 +35,7 @@ public class Human : MonoBehaviour
 
 	Usable m_useTarget = null;
 	Vector3 m_moveTarget = Vector3.negativeInfinity;
+    Vector3 m_lastPosition = Vector3.negativeInfinity;
 
     Usable UseTarget
     {
@@ -83,11 +87,21 @@ public class Human : MonoBehaviour
 
 	private void Update()
 	{
-        if ((PosTarget - Vector3.negativeInfinity).sqrMagnitude > Mathf.Epsilon)
+        if (Stamina <= 0)
+        {
+            Stamina = 0;
+            agent.speed = AgentSpeed / 2;
+        }
+        else
+        {
+            agent.speed = AgentSpeed / 2;
+        }
+
+		if ((PosTarget - Vector3.negativeInfinity).sqrMagnitude > Mathf.Epsilon)
         {
             agent.isStopped = false;
             agent.SetDestination(PosTarget);
-			if (agent.remainingDistance < 1 && agent.velocity.sqrMagnitude<=0.5f )
+			if (agent.remainingDistance < 1 && agent.velocity.sqrMagnitude <= 0.5f)
             {
                 agent.isStopped = true;
                 if (UseTarget != null )
@@ -108,6 +122,18 @@ public class Human : MonoBehaviour
         {
             renderer.flipX = m_isWalking && agent.velocity.x < 0;
 		}
+
+	}
+	private void LateUpdate()
+	{
+        Vector3 dist = transform.position - m_lastPosition;
+        SetStamina(Stamina - dist.magnitude);
+	    m_lastPosition = transform.position;
+	}
+
+    public void SetStamina(float newValue)
+    {
+        Stamina = newValue;
     }
 
     public void SetDigging(bool isDigging)
