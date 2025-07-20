@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d51c86b9b43661d4a99d5fae411860a2
+guid: 7d2886fda024b544c9f6f2c67881477f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3504556372599728608
-    second: angle_0
+      213: 5114813870565590961
+    second: demon_wings_low_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,17 +46,17 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
-  spriteExtrude: 13
-  spriteMeshType: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 51.2
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -113,46 +113,33 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: angle_0
+      name: demon_wings_low_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 256
-        height: 256
+        x: 15
+        y: 38
+        width: 215
+        height: 190
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e96324f37fa2a030800000000000000
-      internalID: 3504556372599728608
+      spriteID: 1b78d47ad187bf640800000000000000
+      internalID: 5114813870565590961
       vertices: []
       indices: 
       edges: []
       weights: []
-    outline:
-    - - {x: -66, y: 73}
-      - {x: 128, y: 71}
-      - {x: 128, y: 128}
-      - {x: -128, y: 128}
-      - {x: -128, y: -128}
-      - {x: -66, y: -128}
+    outline: []
     customData: 
-    physicsShape:
-    - - {x: -65, y: -122}
-      - {x: -66, y: 67}
-      - {x: 128, y: 67}
-      - {x: 128, y: 128}
-      - {x: -128, y: 128}
-      - {x: -128, y: -128}
-      - {x: -67, y: -128}
+    physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      angle_0: 3504556372599728608
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
