@@ -30,7 +30,46 @@ public class Human : MonoBehaviour
     private InputManager.InputEvent m_canceledEvent;
     private InputManager.InputEvent m_performedEvent;
 
-	Usable m_target;
+	Usable m_useTarget = null;
+	Vector3 m_moveTarget = Vector3.negativeInfinity;
+
+    Usable UseTarget
+    {
+        get => m_useTarget;
+        set
+        {
+            m_useTarget = value;
+            m_moveTarget = Vector3.negativeInfinity;
+        }
+    }
+
+	Vector3 MoveTarget
+	{
+        get => m_moveTarget;
+        set
+        {
+            m_useTarget = null;
+            m_moveTarget = value;
+        }
+    }
+
+    Vector3 PosTarget
+    {
+        get
+        {
+            if(m_useTarget == null)
+            {
+                return m_moveTarget;
+            }
+            else
+            {
+                return m_useTarget.transform.position;
+            }
+        }
+    }
+
+    bool m_isWalking => agent.velocity.sqrMagnitude > 0.5f && !agent.isStopped;
+    bool m_IsDigging ;
 
 	// Start is called before the first frame update
 	private void Start()
@@ -44,23 +83,36 @@ public class Human : MonoBehaviour
 
 	private void Update()
 	{
-        if (m_target != null)
+        if ((PosTarget - Vector3.negativeInfinity).sqrMagnitude > Mathf.Epsilon)
         {
-            agent.SetDestination(m_target.transform.position);
-            if (agent.remainingDistance < 1 && agent.pathStatus == NavMeshPathStatus.PathComplete)
+            agent.isStopped = false;
+            agent.SetDestination(PosTarget);
+			if (agent.remainingDistance < 1 && agent.velocity.sqrMagnitude<=0.5f )
             {
-                m_target.Use();
-                m_target = null;
+                agent.isStopped = true;
+                if (UseTarget != null )
+                {
+					UseTarget.Use(this);
+					UseTarget = null;
+                }
             }
         }
-        if (m_Animator != null)
+
+		if (m_Animator != null)
         {
-            m_Animator.SetBool(m_IsWalkingAnimParam, agent.velocity.sqrMagnitude > 0.5f);
+            m_Animator.SetBool(m_IsDiggingAnimParam, m_IsDigging && !m_isWalking);
+            m_Animator.SetBool(m_IsWalkingAnimParam, m_isWalking);
         }
+
         foreach(SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
         {
-            renderer.flipX = agent.velocity.sqrMagnitude > 0.5f && agent.velocity.x < 0;
+            renderer.flipX = m_isWalking && agent.velocity.x < 0;
 		}
+    }
+
+    public void SetDigging(bool isDigging)
+    {
+        m_IsDigging = isDigging;
     }
 
 	private void OnSelect()
@@ -88,19 +140,24 @@ public class Human : MonoBehaviour
 		Vector3 worldPos = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
         Collider2D[] colliders = Physics2D.OverlapPointAll(worldPos);
 
+        bool handled = false;
         if (colliders.Length > 0)
         {
             foreach (Collider2D collider in colliders)
             {
-                HandleClicOnCollider(collider);
+                if(HandleClicOnCollider(collider))
+                {
+                    handled = true;
+				}
             }
         }
-        else
+
+        if(!handled)
         {
             HandleClickOnEmptySpace(worldPos);
         }
-
-            agent.destination = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
+        
+        agent.destination = Camera.main.ScreenToWorldPoint(input.ReadValue<Vector2>());
     }
 
 	private void HandleClickOnEmptySpace(Vector3 worldPos)
@@ -108,18 +165,22 @@ public class Human : MonoBehaviour
 		Vector3Int tilePos = DiggableTilemap.WorldToCell(worldPos);
         if(DiggableTilemap.GetTile(tilePos) == null)
         {
-			DiggableTilemap.SetTile(tilePos, DiggedTile);
-            DiggableTilemap.GetComponent<TilemapCollider2D>().ProcessTilemapChanges();
-			NavMesh.BuildNavMesh();
+            UseTarget = Diggable.CreateDiggableAt(DiggableTilemap,tilePos);
 		}
+        else
+        {
+			MoveTarget = worldPos;
+        }
 	}
 
-	private void HandleClicOnCollider(Collider2D collider)
+	private bool HandleClicOnCollider(Collider2D collider)
 	{
         if(collider.TryGetComponent(out Usable usable))
         {
-            m_target = usable;
-        }
+			UseTarget = usable;
+            return true;
+		}
+        return false;
 	}
 
 #if UNITY_EDITOR
@@ -164,5 +225,6 @@ public class Human : MonoBehaviour
             }
         }
     }
+
 #endif
 }

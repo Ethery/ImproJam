@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      demon_wings_high_0: -495806733027311078
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
