@@ -134,11 +134,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8983909492029882213}
-  - component: {fileID: 5694259069797991590}
+  - component: {fileID: 2512795871254601044}
+  - component: {fileID: 172185912004485823}
   - component: {fileID: 5870518162613840261}
   - component: {fileID: 2159900439775398700}
   - component: {fileID: 884848421237117823}
-  - component: {fileID: 2512795871254601044}
   m_Layer: 0
   m_Name: Demon
   m_TagString: Untagged
@@ -163,7 +163,7 @@ Transform:
   - {fileID: 597576400437108584}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5694259069797991590
+--- !u!114 &2512795871254601044
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,10 +172,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3345257203533599968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b967f329c3ecdc74295b5d6bc3e67392, type: 3}
+  m_Script: {fileID: 11500000, guid: 25c0c3fcac00e6a45bdb96f9142d19ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsSelectedImage: {fileID: 9135628406315253775}
+  m_timeBetweenOrders: 4
+--- !u!114 &172185912004485823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3345257203533599968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d941c23c69cb746a8d0496160df5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &5870518162613840261
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -232,20 +244,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2512795871254601044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3345257203533599968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25c0c3fcac00e6a45bdb96f9142d19ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_newCommandTime: 4
-  m_animator: {fileID: 0}
 --- !u!1 &6744770984984211821
 GameObject:
   m_ObjectHideFlags: 0

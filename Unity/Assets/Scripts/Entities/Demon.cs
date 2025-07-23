@@ -1,24 +1,20 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Selectable))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class Demon : MonoBehaviour
 {
 	[SerializeField]
-	private float m_newCommandTime = 4f;
+	private float m_timeBetweenOrders = 4f;
 
-	[SerializeField]
-	private Animator m_animator;
-
-	[SerializeField]
 	private NavMeshAgent m_agent;
 
 	private float m_time;
 
 	private float Speed => m_agent.speed;
 
-	private float DistanceMax => Speed * m_newCommandTime;
+	//Speed * m_timeBetweenOrders pour que le démon ait des temps d'arrêt
+	private float DistanceMax => Speed * m_timeBetweenOrders;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -30,7 +26,7 @@ public class Demon : MonoBehaviour
 	private void Update()
 	{
 		m_time = m_time + Time.deltaTime;
-		if (m_time > m_newCommandTime)
+		if (m_time > m_timeBetweenOrders)
 		{
 			NewCommand();
 			m_time = 0f;
@@ -43,8 +39,9 @@ public class Demon : MonoBehaviour
 		direction.x = Random.Range(-1f, 1f);
 		direction.y = Random.Range(-1f, 1f);
 		direction = direction.normalized;
+
 		float distance = Random.Range(0, DistanceMax);
-		direction *= distance;
-		m_agent.SetDestination((Vector2)transform.position + direction);
+		
+		m_agent.SetDestination((Vector2)transform.position + (direction * distance));
 	}
 }
