@@ -19,7 +19,7 @@ public class AStarCollector : MonoBehaviour
 				testedPos.y = y;
 				if(Physics2D.Raycast(m_tilemap.CellToWorld(testedPos), Vector2.down))
 				{
-					jijio
+					//Todo : make AStar datas here.
 				}
 			}
 		}
